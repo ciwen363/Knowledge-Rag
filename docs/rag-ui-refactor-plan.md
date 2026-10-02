@@ -62,3 +62,7 @@ node scripts/verify-frontend.mjs
 ```
 
 结果与截图默认保存在忽略提交的 `target/frontend-verification/`。若 CDN 访问不稳定，可以用 `KNOW_ENGINE_TEST_DEPENDENCIES` 指向已下载的同版本依赖及 `manifest.json`；这是测试网络替身，不代表线上 CDN 可用。本次对话页实际 CDN 加载超时，且现有 highlight.js 11.9.0 `/lib/highlight.min.js` URL 返回 404，应在前端阶段修复并验证代码高亮。
+
+## 导航修复验收
+
+阶段 2 完成：四页共用 navigation.js 菜单定义，静态四入口仍保留；当前入口增加 aria-current。StaticPageConfiguration 对 HTML 和导航 CSS/JS 返回 Cache-Control: no-store，导航资源版本更新。13 组浏览器业务检查、文档→对话→评测→文档真实跳转、100 题历史详情、正文计算样式一致、窄屏导航均通过；14 个 Java 测试通过。前端视觉重构尚未开始。
