@@ -18,6 +18,46 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KnowEngineReRankingContentAggregatorTest {
     @Test
+    void usesBestChildRelevanceButReturnsCompleteParentAndOriginalReference() {
+        String parent = "完整上下文".repeat(700);
+        var observed = new java.util.ArrayList<String>();
+        ScoringModel model = (segments, query) -> {
+            observed.addAll(segments.stream().map(TextSegment::text).toList());
+            return Response.from(segments.stream().map(segment -> segment.text().equals("相关子分块全文") ? -2.0 : -3.0).toList());
+        };
+        var aggregator = KnowEngineReRankingContentAggregator.builder()
+                .scoringModel(model).querySelector(map -> map.keySet().iterator().next())
+                .minScore(-2.5).maxResults(5)
+                .scoringSegments(segment -> List.of(TextSegment.from("无关子分块全文"), TextSegment.from("相关子分块全文")))
+                .build();
+        var result = aggregator.reRankAndFilter(List.of(content(parent)), Query.from("original question"));
+        assertEquals(List.of("无关子分块全文", "相关子分块全文"), observed);
+        assertEquals(parent, result.getFirst().textSegment().text());
+        assertEquals("embedding-" + parent, result.getFirst().metadata().get(ContentMetadata.EMBEDDING_ID));
+        assertEquals(-2.0, result.getFirst().metadata().get(ContentMetadata.RERANKED_SCORE));
+    }
+
+    @Test
+    void repeatedParentReferencesReuseChildScoresWithoutDroppingReferences() {
+        var first = TextSegment.from("第一子分块");
+        var second = TextSegment.from("第二子分块");
+        AtomicInteger evaluated = new AtomicInteger();
+        ScoringModel model = (segments, query) -> {
+            evaluated.addAndGet(segments.size());
+            return Response.from(segments.stream().map(segment -> -1.0).toList());
+        };
+        var aggregator = KnowEngineReRankingContentAggregator.builder()
+                .scoringModel(model).querySelector(map -> map.keySet().iterator().next())
+                .minScore(-2.5).maxResults(5).scoringSegments(segment -> List.of(first, second)).build();
+        var parent1 = Content.from(TextSegment.from("完整父分块", new dev.langchain4j.data.document.Metadata(Map.of("chunkId", "child1"))), Map.of(ContentMetadata.EMBEDDING_ID, "one"));
+        var parent2 = Content.from(TextSegment.from("完整父分块", new dev.langchain4j.data.document.Metadata(Map.of("chunkId", "child2"))), Map.of(ContentMetadata.EMBEDDING_ID, "two"));
+        var result = aggregator.reRankAndFilter(List.of(parent1, parent2), Query.from("question"));
+        assertEquals(2, evaluated.get());
+        assertEquals(2, result.size());
+        assertEquals(java.util.Set.of("one", "two"), result.stream().map(c -> c.metadata().get(ContentMetadata.EMBEDDING_ID)).collect(java.util.stream.Collectors.toSet()));
+    }
+
+    @Test
     void preservesFullTextScoresThresholdOrderAndMetadata() {
         String longText = "完整父分块".repeat(600);
         Map<String, Double> scores = Map.of("first", 1.0, longText, 3.0, "excluded", -3.0);
