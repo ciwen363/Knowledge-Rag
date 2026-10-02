@@ -1,0 +1,14 @@
+# Build output and IDE metadata
+/target/
+/.idea/
+*.iml
+
+# Local configuration and downloaded models
+/src/main/resources/application.yml
+/src/main/resources/model/
+
+# Local logs and environment files
+*.log
+.env
+.env.*
+!.env.example
