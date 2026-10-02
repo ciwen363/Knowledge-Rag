@@ -1,18 +1,18 @@
 /* Know Engine — shared light business theme */
 :root {
-    --ke-bg: #e9eef4;
-    --ke-bg-mid: #dfe7f0;
+    --ke-bg: #f5f7fb;
+    --ke-bg-mid: #f5f7fb;
     --ke-surface: #ffffff;
-    --ke-surface-muted: #f5f8fb;
-    --ke-primary: #1a4b8c;
-    --ke-primary-hover: #153d73;
-    --ke-primary-soft: #e8f0fa;
-    --ke-primary-border: #b8cce6;
-    --ke-text: #1a2332;
-    --ke-text-secondary: #5a6a7e;
-    --ke-text-muted: #8a97a8;
-    --ke-border: #d5dee8;
-    --ke-border-strong: #b8c4d4;
+    --ke-surface-muted: #f8fafc;
+    --ke-primary: #2456a6;
+    --ke-primary-hover: #194789;
+    --ke-primary-soft: #edf3ff;
+    --ke-primary-border: #c7d8f5;
+    --ke-text: #172b4d;
+    --ke-text-secondary: #52637b;
+    --ke-text-muted: #77869b;
+    --ke-border: #e3e8ef;
+    --ke-border-strong: #cbd5e1;
     --ke-success: #0d7a4f;
     --ke-success-soft: #e6f5ee;
     --ke-danger: #b42318;
@@ -21,14 +21,14 @@
     --ke-warning-soft: #fff6e0;
     --ke-info: #0b6e99;
     --ke-info-soft: #e6f4fa;
-    --ke-radius: 10px;
-    --ke-radius-sm: 6px;
-    --ke-shadow: 0 8px 28px rgba(26, 53, 90, 0.1);
+    --ke-radius: 12px;
+    --ke-radius-sm: 7px;
+    --ke-shadow: 0 8px 36px rgba(30,50,80,.045);
     --ke-shadow-sm: 0 1px 3px rgba(26, 53, 90, 0.06);
-    --ke-max-width: 1180px;
-    --ke-page-pad: 24px;
-    --ke-shell-pad: 28px;
-    --ke-nav-h: 64px;
+    --ke-max-width: 1320px;
+    --ke-page-pad: 20px;
+    --ke-shell-pad: 32px;
+    --ke-nav-h: 76px;
     --ke-font: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     --ke-mono: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
     --ke-control-h: 40px;
@@ -85,7 +85,7 @@ a {
 .app-page--fill {
     height: calc(100vh - var(--ke-page-pad) * 2);
     min-height: 560px;
-}.app-main {
+}.app-main {
     flex: 1;
     padding: var(--ke-shell-pad);
     min-width: 0;
@@ -557,8 +557,6 @@ tbody td {
 
     .app-page--fill {
         height: calc(100vh - 24px);
-    }.app-nav-links {
-        justify-content: flex-start;
     }
 
     .app-main {
@@ -572,7 +570,6 @@ tbody td {
 }
 
 /* Workspace foundation */
-:root{--ke-bg:#f5f7fb;--ke-bg-mid:#f5f7fb;--ke-border:#e3e8ef;--ke-border-strong:#cbd5e1;--ke-text:#172b4d;--ke-text-secondary:#52637b;--ke-text-muted:#77869b;--ke-surface-muted:#f8fafc;--ke-primary:#2456a6;--ke-primary-hover:#194789;--ke-primary-soft:#edf3ff;--ke-primary-border:#c7d8f5;--ke-radius:12px;--ke-radius-sm:7px;--ke-shadow:0 8px 36px rgba(30,50,80,.045);--ke-max-width:1320px;--ke-page-pad:20px;--ke-nav-h:76px;--ke-shell-pad:32px}
 body{background:var(--ke-bg)}
 .app-page{border-radius:16px;border-color:var(--ke-border)}
 .page-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}
@@ -598,5 +595,5 @@ tbody tr:hover{background:#f7faff}
 .modal-close:hover{background:var(--ke-surface-muted)}
 :focus-visible{outline:2px solid var(--ke-primary);outline-offset:3px}
 button,a,input,select,textarea{touch-action:manipulation}
-@media(max-width:768px){:root{--ke-page-pad:0px;--ke-shell-pad:18px}body{padding:0}.app-page{border-radius:0;border:0;min-height:100dvh}.app-page--fill{height:100dvh;min-height:520px}.app-nav{padding:16px 18px;gap:14px}.app-nav-links{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav-link{font-size:12px;padding:0 6px}.app-main{padding:22px 18px}.app-main--flush{padding:0}.page-heading{margin-bottom:20px}.page-heading h2{font-size:22px}.panel{padding:20px}.filter-bar{padding:14px;gap:10px}.filter-item{flex:1;min-width:110px}.filter-item input,.filter-item select{width:100%;min-width:0}.modal-overlay{padding:16px 12px}.modal{padding:20px}.toast{max-width:calc(100vw - 32px);right:16px}.pagination{flex-wrap:wrap;gap:6px}}
+@media(max-width:768px){:root{--ke-page-pad:0px;--ke-shell-pad:18px}body{padding:0}.app-page{border-radius:0;border:0;min-height:100dvh}.app-page--fill{height:100dvh;min-height:520px}.app-main{padding:22px 18px}.app-main--flush{padding:0}.page-heading{margin-bottom:20px}.page-heading h2{font-size:22px}.panel{padding:20px}.filter-bar{padding:14px;gap:10px}.filter-item{flex:1;min-width:110px}.filter-item input,.filter-item select{width:100%;min-width:0}.modal-overlay{padding:16px 12px}.modal{padding:20px}.toast{max-width:calc(100vw - 32px);right:16px}.pagination{flex-wrap:wrap;gap:6px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
