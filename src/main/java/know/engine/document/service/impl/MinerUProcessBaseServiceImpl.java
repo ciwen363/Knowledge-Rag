@@ -12,15 +12,6 @@ import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
-import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
@@ -66,6 +57,9 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
 
     @Value("${file.parse.api.responseTimeout:300000}")
     private int responseTimeout;
+
+    @Value("${file.parse.api.tier:basic}")
+    private String parseTier;
 
     /**
      * 处理文档转换
@@ -389,45 +383,13 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
      * @return ZIP 文件字节数组
      */
     private byte[] parseDocumentToZip(String fileName, InputStream fileStream) {
-        String url = fileParseApiUrl + "/file_parse";
-
-        // 配置请求超时
-        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(Timeout.ofMilliseconds(connectTimeout)).setResponseTimeout(Timeout.ofMilliseconds(responseTimeout)).build();
-
-        try (CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build()) {
-
-            HttpPost httpPost = new HttpPost(url);
-            httpPost.setHeader("Accept", "application/json");
-
-            // 构建 multipart 请求体，启用 ZIP 格式和返回图片
-            HttpEntity multipartEntity = MultipartEntityBuilder.create()
-                    .setCharset(StandardCharsets.UTF_8)
-                    .addBinaryBody("files", fileStream, org.apache.hc.core5.http.ContentType.APPLICATION_OCTET_STREAM, fileName)
-                    .addTextBody("backend", "pipeline").addTextBody("response_format_zip", "true")
-                    .addTextBody("return_images", "true").addTextBody("return_model_output", "false")
-                    .addTextBody("return_middle_json", "false").build();
-
-            httpPost.setEntity(multipartEntity);
-
-            log.info("开始调用文件解析接口（ZIP 模式）: {}", url);
-
-            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                int statusCode = response.getCode();
-                log.info("文件解析接口响应状态码: {}", statusCode);
-
-                HttpEntity responseEntity = response.getEntity();
-                if (statusCode == 200 && responseEntity != null) {
-                    // 读取响应体为字节数组（ZIP 文件）
-                    byte[] zipBytes = EntityUtils.toByteArray(responseEntity);
-                    log.info("文件解析接口调用成功，ZIP 文件大小: {} bytes", zipBytes.length);
-                    return zipBytes;
-                } else {
-                    String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, "UTF-8") : "";
-                    log.error("文件解析接口调用失败，状态码: {}, 响应: {}", statusCode, responseBody);
-                    throw new RuntimeException("文件解析接口调用失败: HTTP " + statusCode + ", " + responseBody);
-                }
-            }
-
+        try {
+            log.info("开始调用文件解析接口（ZIP 模式）: {}", fileParseApiUrl);
+            return new MinerUParseClient(fileParseApiUrl, connectTimeout, responseTimeout, parseTier)
+                    .parseZip(fileName, fileStream);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("文件解析被中断", e);
         } catch (Exception e) {
             log.error("调用文件解析接口异常", e);
             throw new RuntimeException("调用文件解析接口失败: " + e.getMessage(), e);
@@ -451,4 +413,3 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         }
     }
 }
-

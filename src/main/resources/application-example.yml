@@ -116,3 +116,4 @@ file:
   parse:
     api:
       url: http://localhost:8000 # 文档解析接口地址，记得改成你自己的
+      tier: basic # MinerU v1 的解析等级；旧 /file_parse 接口忽略此项

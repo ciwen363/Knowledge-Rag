@@ -38,6 +38,9 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
      */
     private static final int EMPTY_FILTER_FALLBACK_LIMIT = 3;
 
+    // ONNX attention pads a batch to its longest input; bound size * length² without truncating text.
+    private static final long SCORING_BATCH_CHAR_SQUARED_LIMIT = 1_000_000L;
+
     /** 交叉编码器，对 (Query, 片段) 打相关性分；本项目一般注入 BGE ONNX 模型 */
     private final ScoringModel scoringModel;
     /** 从多 Query 的入参 Map 中选出 BGE 打分用的那一个 Query */
@@ -124,7 +127,7 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
     /**
      * 用 ScoringModel 对融合后的候选重新打分，再过滤、截断
      * 注意点：
-     *   BGE 吃的是 {@link TextSegment} 文本，不是 Content 对象，所以先抽出 segment 批量 {@code scoreAll}
+     *   BGE 对完整 TextSegment 评分，小候选批次保持原样，长输入分批以控制内存
      *   {@code putIfAbsent}：同一 TextSegment 若出现多次，保留第一次对应的原始 Content（及其元数据）
      *   写出时把 BGE 分数写入 {@code RERANKED_SCORE}，并拷贝原 Content 元数据，供前端引用展示
      *   若 minScore 过滤后为空，按 RRF 顺序回退取前 {@link #EMPTY_FILTER_FALLBACK_LIMIT} 条，并写回 BGE 分
@@ -142,8 +145,11 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
 
         List<TextSegment> segments = contents.stream().map(Content::textSegment).collect(Collectors.toList());
 
-        // 一次批量打分，避免对每个片段单独调模型
-        List<Double> scores = scoringModel.scoreAll(segments, query.text()).content();
+        // 保留全文；共享 ONNX 模型同时仅执行一次推理，避免并发申请多份大矩阵。
+        List<Double> scores;
+        synchronized (scoringModel) {
+            scores = scoreInBatches(segments, query.text());
+        }
 
         Map<TextSegment, Double> segmentToScore = new HashMap<>();
         for (int i = 0; i < segments.size(); i++) {
@@ -179,8 +185,28 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
                 .collect(Collectors.toList());
     }
 
+    private List<Double> scoreInBatches(List<TextSegment> segments, String query) {
+        List<Double> scores = new ArrayList<>(segments.size());
+        List<TextSegment> batch = new ArrayList<>();
+        long longest = 0;
+        for (TextSegment segment : segments) {
+            long nextLongest = Math.max(longest, (long) segment.text().length() + query.length());
+            if (!batch.isEmpty() && (batch.size() + 1L) * nextLongest * nextLongest > SCORING_BATCH_CHAR_SQUARED_LIMIT) {
+                scores.addAll(scoringModel.scoreAll(batch, query).content());
+                batch.clear();
+                longest = 0;
+            }
+            batch.add(segment);
+            longest = Math.max(longest, (long) segment.text().length() + query.length());
+        }
+        if (!batch.isEmpty()) {
+            scores.addAll(scoringModel.scoreAll(batch, query).content());
+        }
+        return scores;
+    }
+
     /**
-     * 建造器；ChatService 典型配置：scoringModel=BGE，minScore=0.6，maxResults=5，
+     * 建造器；ChatService 典型配置：scoringModel=BGE，minScore=-2.5，maxResults=5，
      * querySelector 取 Map 中第一个 Query
      */
     public static class ReRankingContentAggregatorBuilder {
