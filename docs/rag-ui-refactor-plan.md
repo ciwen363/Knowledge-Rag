@@ -65,7 +65,7 @@ node scripts/verify-frontend.mjs
 
 ## 导航修复验收
 
-阶段 2 完成：四页共用 navigation.js 菜单定义，静态四入口仍保留；当前入口增加 aria-current。StaticPageConfiguration 对 HTML 和导航 CSS/JS 返回 Cache-Control: no-store，导航资源版本更新。13 组浏览器业务检查、文档→对话→评测→文档真实跳转、100 题历史详情、正文计算样式一致、窄屏导航均通过；14 个 Java 测试通过。前端视觉重构尚未开始。
+阶段 2 完成：四页共用 navigation.js 菜单定义，静态四入口仍保留；当前入口增加 aria-current。StaticPageConfiguration 对 HTML 和导航 CSS/JS 返回 Cache-Control: no-store，导航资源版本更新。13 组浏览器业务检查、文档→对话→评测→文档真实跳转、100 题历史详情、正文计算样式一致、窄屏导航均通过；14 个 Java 测试通过。此提交先完成导航修复，随后按阶段开始视觉重构。
 
 阶段 3a 完成：四页业务脚本与页面 CSS 已分别抽离；保留全局函数供原 onclick 使用，defer 保留 DOMContentLoaded 时序。统一公共配色、布局、控件和导航，导航样式由 navigation.css 独立维护。13 组业务回归通过，100 题报告/CSV 正常，写请求均模拟。
 
@@ -74,3 +74,5 @@ node scripts/verify-frontend.mjs
 阶段 3c 完成：对话页使用本地固定 marked 15.0.12、DOMPurify 3.4.16 和 highlight.js 11.9.0（许可证与来源哈希保留）。Markdown 清理后执行代码高亮，依赖不可用时保留转义文本；修复原高亮 URL 404。窄屏历史会话横向展示、正文保持全宽，输入键盘提示和引用/警告/卡片保留。14 组浏览器检查通过，包括真实代码高亮、Markdown 表格、数据集上传优先级和手机正文宽度。
 
 阶段 3d 完成：评测页进入公共工作台布局，四个业务页签和全部原配置项保留；表格局部横向滚动，指标卡片/历史/对比/报告/CSV 功能一致。eval-report.js 业务脚本保持原样。14 组浏览器回归和桌面/390 px 截图检查通过。
+
+阶段 4 完成：15 组浏览器检查、14 个 Java 测试、真实对话/引用/结束、桌面与手机截图、6 文档/97 分块/96 ES 文本、100 题真值与已保存达标报告均核对通过。所有前端阶段均有独立提交；最终验收详见 validation/frontend-refactor-20261003.md。

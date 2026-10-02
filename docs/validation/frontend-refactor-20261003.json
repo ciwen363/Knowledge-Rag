@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-03",
+  "ragVerifiedCommit": "6e53af7",
+  "navigationCommit": "aeade4c",
+  "frontendStages": [
+    "76cab22",
+    "bd4338d",
+    "ceba8f4",
+    "4bdcff4"
+  ],
+  "browser": {
+    "checks": [
+      "upload: all original controls, workflow functions and navigation",
+      "document: all original controls, workflow functions and navigation",
+      "chat: all original controls, workflow functions and navigation",
+      "eval-report: all original controls, workflow functions and navigation",
+      "upload: upload response, four parameter modes and the existing SMART option",
+      "upload: CSV fixed row splitting keeps irrelevant controls hidden",
+      "document: edit restrictions, version history, segments, expansion and table version splitting",
+      "document: edit payload, batch selection/deletion, version upload, segment editing/deletion and metadata",
+      "chat: actual conversation history, message recall and database timestamps",
+      "chat: new conversation, card prompt and streamed answer handling",
+      "chat: Markdown sanitation, references, warnings and conversation deletion",
+      "chat: local dependencies, actual code highlighting and Markdown tables",
+      "evaluation: history, report details and comparison panel",
+      "evaluation: real report comparison/CSV export and mocked evaluation configuration/error feedback",
+      "all four pages: mobile navigation remains visible"
+    ],
+    "blockedWrites": [
+      {
+        "method": "POST",
+        "path": "/api/document/upload",
+        "query": ""
+      },
+      {
+        "method": "POST",
+        "path": "/api/document/upload",
+        "query": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/api/document",
+        "query": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/document/batch",
+        "query": "?ids=6,5,4,3,2,1"
+      },
+      {
+        "method": "POST",
+        "path": "/api/document/upload-version",
+        "query": ""
+      },
+      {
+        "method": "PUT",
+        "path": "/api/segment",
+        "query": ""
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/segment/68",
+        "query": ""
+      },
+      {
+        "method": "POST",
+        "path": "/chat/send",
+        "query": "?content=%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9B%9E%E5%BD%92%E6%A3%80%E6%9F%A5"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/conversation/delete",
+        "query": "?conversationId=00000000-0000-4000-8000-000000000099"
+      },
+      {
+        "method": "POST",
+        "path": "/eval/run",
+        "query": ""
+      },
+      {
+        "method": "POST",
+        "path": "/eval/dataset/upload",
+        "query": ""
+      },
+      {
+        "method": "POST",
+        "path": "/eval/run",
+        "query": ""
+      }
+    ],
+    "desktop": {
+      "width": 1440,
+      "height": 1000
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    },
+    "dependencyNetworkMock": false,
+    "screenshotDirectory": "D:/Temp/know-engine-topnav-28757eeb-94c6-4227-a885-65f911b618be/ui-final"
+  },
+  "javaTests": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0
+  },
+  "realChat": {
+    "completed": true,
+    "answerContains": "Aurora-7",
+    "referencesPresent": true,
+    "testConversationCleaned": true
+  },
+  "corpus": {
+    "documents": 6,
+    "segments": 97,
+    "vectors": 96,
+    "segmentTextsAndIdsUnchanged": true,
+    "esTextsMatched": true
+  },
+  "ragAfterFrontend": {
+    "coreCodeAndDatasetUnchanged": true,
+    "runId": "20261003-001139-77162f1b",
+    "successfulCases": 100,
+    "failedCases": 0,
+    "hitAtK": 0.99,
+    "mrr": 0.897,
+    "recallAtK": 0.9566666666666666,
+    "judgeEnabled": false
+  },
+  "files": [
+    {
+      "page": "upload",
+      "htmlSha256": "bc21ba5ccbbe49fe19de7a433c8f0fc937e50f07aadd858becac950a305dcdba",
+      "scriptSha256": "27515d1e5215700874331ec7217e1b1761927737c29d98e572324066b7704250"
+    },
+    {
+      "page": "document",
+      "htmlSha256": "466d032fc76979139d094b891ca2e1d7efcb9096ff19546b29f7d9e136ff6bd5",
+      "scriptSha256": "810a4a199a9a9867c06dc87b4295014e31f5c10afd13abefb2a08134247557ea"
+    },
+    {
+      "page": "chat",
+      "htmlSha256": "c51f4d153bf89c8bd0c1fa6e41f501ff218b3556a14773713319989b0ad32d8d",
+      "scriptSha256": "c512f0d00caba72dfd25ad9eb954288f5b31b8356fe0e3a3226a5e7d23936f2f"
+    },
+    {
+      "page": "eval-report",
+      "htmlSha256": "5694d076dd4dac0197775326690ea32b44cc4a80a8ad95706a3cc9c8ffb76a86",
+      "scriptSha256": "13d65cae1c290037a6b85d786c963999c9bbf501335d71f8916b3090f4f5cd6b"
+    }
+  ]
+}

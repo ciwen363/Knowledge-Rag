@@ -219,6 +219,13 @@ try {
     pass('document: edit payload, batch selection/deletion, version upload, segment editing/deletion and metadata');
 
     await navigate('chat');
+    await wait('document.querySelector(".conversation-item")');
+    const historyId = await evaluate('document.querySelector(".conversation-item").dataset.id');
+    assert(await evaluate('document.querySelector(".conversation-item .time").textContent.trim().length > 0'));
+    await click('.conversation-item');
+    await wait('currentConversationId === ' + JSON.stringify(historyId) + ' && document.querySelector(".message")');
+    assert(await evaluate('document.querySelector(".message-time").textContent.trim().length > 0'));
+    pass('chat: actual conversation history, message recall and database timestamps');
     await click('#newChatBtn');
     assert(await evaluate('!document.getElementById("messageInput").disabled && !document.getElementById("sendBtn").disabled'));
     await evaluate('renderCardPrompt(appendMessage("assistant",""),"卡片回归检查")');
@@ -275,6 +282,7 @@ try {
         await navigate(page.page);
         const navFits = await evaluate('Array.from(document.querySelectorAll(".app-nav .nav-link")).every(a=>{const r=a.getBoundingClientRect();return r.width>0&&r.left>=0&&r.right<=innerWidth})');
         assert(navFits, page.page + ' navigation is clipped at mobile width');
+        assert(await evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), page.page + ' overflows the mobile viewport');
         if (page.page === 'chat' && await evaluate('Array.from(document.scripts).some(script=>script.src.includes("/vendor/"))')) {
             assert(await evaluate('document.querySelector(".chat-main").getBoundingClientRect().width >= innerWidth - 40'), 'Mobile conversation list squeezed the chat');
         }

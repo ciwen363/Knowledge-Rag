@@ -101,7 +101,7 @@
                 <div class="conversation-item ${conv.conversationId === currentConversationId ? 'active' : ''}"
                      data-id="${conv.conversationId}">
                     <div class="title">${escapeHtml(conv.title || '新对话')}</div>
-                    <div class="time">${formatTime(conv.updateTime || conv.createTime)}</div>
+                    <div class="time">${formatTime(conv.updatedAt || conv.updateTime || conv.createdAt || conv.createTime)}</div>
                     <button class="delete-btn" onclick="deleteConversation(event, '${conv.conversationId}')">删除</button>
                 </div>
             `).join('');
@@ -172,7 +172,7 @@
                         <div class="message-content">
                             <div class="message-text">${bodyHtml}</div>
                             ${refsHtml}
-                            <div class="message-time">${formatTime(msg.createTime)}</div>
+                            <div class="message-time">${formatTime(msg.createdAt || msg.createTime)}</div>
                         </div>
                     </div>
                 `;
