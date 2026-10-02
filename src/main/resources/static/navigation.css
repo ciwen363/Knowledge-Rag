@@ -1,106 +1,12 @@
-/* Shared page navigation; defaults also support the standalone eval page. */
-.app-nav,
-.app-nav *,
-.app-nav *::before,
-.app-nav *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.app-nav {
-    font-family: var(--ke-font, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif);
-    line-height: 1.5;
-}
-
-.app-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    min-height: var(--ke-nav-h, 64px);
-    padding: 0 var(--ke-shell-pad, 28px);
-    border-bottom: 1px solid var(--ke-border, #d5dee8);
-    background: linear-gradient(180deg, #fbfdff 0%, var(--ke-surface, #ffffff) 100%);
-    flex-shrink: 0;
-}
-
-.app-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-}
-
-.brand-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: var(--ke-primary, #1a4b8c);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    flex-shrink: 0;
-}
-
-.app-brand h1 {
-    font-size: var(--ke-font-title, 20px);
-    font-weight: 650;
-    color: var(--ke-text, #1a2332);
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.app-nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: flex-end;
-}
-
-.nav-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    padding: 0 14px;
-    border-radius: var(--ke-radius-sm, 6px);
-    font-size: var(--ke-font-base, 14px);
-    font-weight: 500;
-    text-decoration: none;
-    color: var(--ke-text-secondary, #5a6a7e);
-    background: var(--ke-surface-muted, #f5f8fb);
-    border: 1px solid transparent;
-    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
-}
-
-.nav-link:hover {
-    color: var(--ke-primary, #1a4b8c);
-    background: var(--ke-primary-soft, #e8f0fa);
-    border-color: var(--ke-primary-border, #b8cce6);
-}
-
-.nav-link.is-active {
-    color: #fff;
-    background: var(--ke-primary, #1a4b8c);
-    border-color: var(--ke-primary, #1a4b8c);
-}
-
-@media (max-width: 768px) {
-    .app-nav {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 14px 16px;
-        gap: 12px;
-    }
-
-    .app-nav-links {
-        justify-content: flex-start;
-    }
-}
+/* Shared navigation: static links and navigation.js use the same classes. */
+.app-nav,.app-nav *,.app-nav *::before,.app-nav *::after{margin:0;padding:0;box-sizing:border-box}
+.app-nav{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:var(--ke-nav-h,76px);padding:0 var(--ke-shell-pad,32px);font-family:var(--ke-font,"Segoe UI","Microsoft YaHei",sans-serif);line-height:1.5;background:#fff;border-bottom:1px solid var(--ke-border,#e3e8ef);flex-shrink:0}
+.app-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex-shrink:0;border-radius:10px;background:var(--ke-primary,#2456a6);color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em}
+.app-brand h1{font-size:18px;font-weight:650;letter-spacing:-.4px;color:var(--ke-text,#172b4d);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.app-nav-links{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.nav-link{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 16px;border:1px solid transparent;border-radius:7px;font-size:14px;font-weight:550;text-decoration:none;color:var(--ke-text-secondary,#52637b);background:transparent;white-space:nowrap;transition:background-color .15s,color .15s}
+.nav-link:hover{color:var(--ke-primary,#2456a6);background:var(--ke-primary-soft,#edf3ff)}
+.nav-link.is-active{color:var(--ke-primary,#2456a6);background:var(--ke-primary-soft,#edf3ff);border-color:transparent}
+.nav-link:focus-visible{outline:2px solid var(--ke-primary,#2456a6);outline-offset:3px}
+@media(max-width:768px){.app-nav{flex-direction:column;align-items:stretch;padding:16px 18px;gap:14px}.app-nav-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.nav-link{height:36px;padding:0 6px;font-size:12px}}
