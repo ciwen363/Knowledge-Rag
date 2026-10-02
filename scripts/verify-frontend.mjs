@@ -88,6 +88,8 @@ try {
         } else if (url.pathname === '/chat/send') {
             type = 'text/event-stream';
             payload = 'data: [PROGRESS]:正在检索知识库内容...\n\ndata: 浏览器流式回归检查\n\ndata: [DONE]\n\n';
+        } else if (/^\/chat\/conversation\/delete/.test(url.pathname)) {
+            payload = { success: true, data: true };
         } else if (/^\/chat\/conversation\/create/.test(url.pathname)) {
             payload = { success: true, data: '00000000-0000-4000-8000-000000000099' };
         } else if (url.pathname === '/eval/dataset/upload') {
@@ -180,6 +182,40 @@ try {
     assert(await evaluate('document.getElementById("versionTableSplitNotice").classList.contains("is-visible")'));
     pass('document: edit restrictions, version history, segments, expansion and table version splitting');
 
+    await evaluate('closeModal("versionSplitModal");openEditModal(' + docId + ')');
+    await wait('document.getElementById("editDocId").value === ' + JSON.stringify(String(docId)));
+    await evaluate('document.getElementById("editTitle").value="回归编辑样例";saveDocument()');
+    await wait('!document.getElementById("editModal").classList.contains("show")');
+    const edit = blockedWrites.find(r => r.method === 'PUT' && r.path === '/api/document');
+    assert(edit);
+    assert.equal(JSON.parse(edit.body).docTitle, '回归编辑样例');
+    assert(!Object.hasOwn(JSON.parse(edit.body), 'status'), 'Editing must preserve read-only status');
+    await wait('document.querySelector("#docTableBody tr input[type=checkbox]")');
+    await click('#selectAll');
+    assert(await evaluate('selectedIds.size === document.querySelectorAll("#docTableBody input[type=checkbox]").length'));
+    await evaluate('batchDelete()');
+    assert(blockedWrites.some(r => r.method === 'DELETE' && r.path === '/api/document/batch'));
+    await evaluate('openVersionModal(' + docId + ')');
+    await wait('document.getElementById("versionModal").classList.contains("show")');
+    await file('#versionFile', '.csv');
+    await evaluate('document.getElementById("versionNumber").value="2.0.0";document.getElementById("versionChangelog").value="回归检查";submitVersion()');
+    await wait('document.getElementById("versionSplitModal").classList.contains("show")');
+    assert(blockedWrites.some(r => r.path === '/api/document/upload-version'));
+    assert(await evaluate('document.getElementById("versionTableSplitNotice").classList.contains("is-visible")'));
+    await evaluate('closeModal("versionSplitModal");viewSegments(' + docId + ')');
+    await wait('document.querySelector("#segmentList .segment-actions")');
+    const segmentId = await evaluate('Number(document.querySelector("#segmentList .segment-actions button[onclick^=editSegment]").getAttribute("onclick").match(/\\d+/)[0])');
+    await evaluate('editSegment(' + segmentId + ')');
+    await wait('document.getElementById("segmentEditModal").classList.contains("show")');
+    await evaluate('document.getElementById("segEditText").value+="\\n浏览器模拟编辑";saveSegment()');
+    await wait('!document.getElementById("segmentEditModal").classList.contains("show")');
+    assert(blockedWrites.some(r => r.method === 'PUT' && r.path === '/api/segment'));
+    await evaluate('deleteSegment(' + segmentId + ')');
+    assert(blockedWrites.some(r => r.method === 'DELETE' && r.path === '/api/segment/' + segmentId));
+    await evaluate('viewSegmentMeta(' + segmentId + ')');
+    await wait('document.getElementById("segmentMetaContent").textContent.trim().length > 0');
+    pass('document: edit payload, batch selection/deletion, version upload, segment editing/deletion and metadata');
+
     await navigate('chat');
     await click('#newChatBtn');
     assert(await evaluate('!document.getElementById("messageInput").disabled && !document.getElementById("sendBtn").disabled'));
@@ -188,6 +224,13 @@ try {
     await evaluate('messageInput.value="浏览器回归检查";sendBtn.click()');
     await wait('document.getElementById("messagesContainer").textContent.includes("浏览器流式回归检查")');
     pass('chat: new conversation, card prompt and streamed answer handling');
+    assert(await evaluate('renderMarkdown("**加粗**\\n\\n- 列表").includes("<strong>加粗</strong>")'));
+    assert(await evaluate('!renderMarkdown("<img src=x onerror=alert(1)>").includes("onerror")'));
+    await evaluate('(()=>{const m=appendMessage("assistant", "引用检查");renderReferences(m,[{documentTitle:"知识库来源",url:"http://127.0.0.1:9090/know-engine/sample.md"}]);renderWarnMessage(appendMessage("assistant", ""),"警告回归检查")})()');
+    assert(await evaluate('document.querySelector(".reference-item").textContent.includes("知识库来源") && messagesContainer.textContent.includes("警告回归检查")'));
+    await evaluate('deleteConversation({stopPropagation(){}},"00000000-0000-4000-8000-000000000099")');
+    assert(blockedWrites.some(r => r.path === '/chat/conversation/delete'));
+    pass('chat: Markdown sanitation, references, warnings and conversation deletion');
 
     await navigate('eval-report');
     await click('[data-tab="runs"]');
@@ -198,6 +241,21 @@ try {
     await click('[data-tab="compare"]');
     assert(await evaluate('document.getElementById("panel-compare").classList.contains("active")'));
     pass('evaluation: history, report details and comparison panel');
+    await evaluate('baselineRunId.value="20260911-014300-7afe0a4b";candidateRunId.value="20261002-223703-c8484647";runCompare()');
+    await wait('document.getElementById("compareResult").style.display === "block"');
+    assert(await evaluate('document.getElementById("compareMetrics").textContent.includes("MRR")'));
+    await evaluate('window.open=(url)=>{window.lastExport=url};exportCsv()');
+    const exportPath = await evaluate('window.lastExport');
+    assert.match(exportPath, /^\/eval\/report\/[^/]+\/export\.csv$/);
+    const csv = await fetch(base + exportPath);
+    assert.equal(csv.status, 200);
+    assert((await csv.text()).includes('aurora-'));
+    await click('[data-tab="run"]');
+    await evaluate('topK.value="7";concurrency.value="2";enableLlmJudge.checked=false;reviewScoreThreshold.value="0.7";startEval()');
+    await wait('document.getElementById("runError").textContent.includes("intercepted")');
+    const run = JSON.parse(blockedWrites.find(r => r.path === '/eval/run').body);
+    assert.deepEqual(run.config, { topK: 7, concurrency: 2, enableLlmJudge: false, reviewScoreThreshold: 0.7 });
+    pass('evaluation: real report comparison/CSV export and mocked evaluation configuration/error feedback');
 
     await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
     for (const page of inventory.pages) {
