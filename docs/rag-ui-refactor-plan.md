@@ -50,3 +50,15 @@
 - 已核对四轮调优设置均在当前代码/提示词中。
 - 串行 100 题基线正在运行；结果将写入阶段验证报告。
 - 对话页源码和正在运行的 HTTP 页面当前均包含 RAG 入口；仍需检查实际点击及浏览器缓存，不能据此认定用户看到的问题已经解决。
+
+## 重构前浏览器基线
+
+新增 `scripts/verify-frontend.mjs`，已通过 10 组工作流检查，覆盖四页原有控件/函数/导航、四类切片及 CSV 固定切片、编辑限制/版本历史/分块展开、对话卡片/流式答案、评测历史/详情/对比入口、390 px 顶部导航。全部写请求在发送前由 CDP 拦截，本次 3 个请求使用模拟响应，真实知识库和会话没有改动。
+
+检查命令：
+
+```powershell
+node scripts/verify-frontend.mjs
+```
+
+结果与截图默认保存在忽略提交的 `target/frontend-verification/`。若 CDN 访问不稳定，可以用 `KNOW_ENGINE_TEST_DEPENDENCIES` 指向已下载的同版本依赖及 `manifest.json`；这是测试网络替身，不代表线上 CDN 可用。本次对话页实际 CDN 加载超时，且现有 highlight.js 11.9.0 `/lib/highlight.min.js` URL 返回 404，应在前端阶段修复并验证代码高亮。
