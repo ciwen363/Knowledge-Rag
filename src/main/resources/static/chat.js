@@ -6,21 +6,7 @@
 
         // 配置 marked：开启 GFM、换行符转 <br>、代码高亮
         if (window.marked) {
-            marked.setOptions({
-                gfm: true,
-                breaks: true,
-                highlight: function(code, lang) {
-                    if (window.hljs) {
-                        try {
-                            if (lang && hljs.getLanguage(lang)) {
-                                return hljs.highlight(code, { language: lang }).value;
-                            }
-                            return hljs.highlightAuto(code).value;
-                        } catch (e) { /* ignore */ }
-                    }
-                    return code;
-                }
-            });
+            marked.setOptions({ gfm: true, breaks: true });
         }
 
         // Markdown 渲染（先经 marked 解析，再用 DOMPurify 清理，防 XSS）
@@ -31,9 +17,17 @@
             try {
                 const html = marked.parse(raw);
                 if (window.DOMPurify) {
-                    return DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });
+                    const template = document.createElement('template');
+                    template.innerHTML = DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });
+                    template.content.querySelectorAll('a[target="_blank"]').forEach(link => link.rel = 'noopener noreferrer');
+                    if (window.hljs) {
+                        template.content.querySelectorAll('pre code').forEach(code => {
+                            try { hljs.highlightElement(code); } catch (error) { /* Keep readable plain code. */ }
+                        });
+                    }
+                    return template.innerHTML;
                 }
-                return html;
+                return escapeHtml(raw);
             } catch (e) {
                 console.error('Markdown 渲染失败:', e);
                 return escapeHtml(raw);
@@ -411,7 +405,7 @@
                     <div class="references-label">参考来源：</div>
                     <div class="references-list">
                         ${uniqueRefs.map((ref, idx) => `
-                            <a href="${ref.url || '#'}" target="_blank" class="reference-item" title="${escapeHtml(ref.documentTitle || '')}">
+                            <a href="${ref.url || '#'}" target="_blank" rel="noopener noreferrer" class="reference-item" title="${escapeHtml(ref.documentTitle || '')}">
                                 <span class="reference-index">[${idx + 1}]</span>
                                 <span class="reference-title">${escapeHtml(ref.documentTitle || '未知文档')}</span>
                             </a>

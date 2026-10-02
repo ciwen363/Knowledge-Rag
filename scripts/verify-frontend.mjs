@@ -125,11 +125,12 @@ try {
         await evaluate('document.querySelector(' + JSON.stringify(selector) + ').click()');
     }
     async function file(selector, suffix) {
-        const name = fs.readdirSync(path.join(project, 'src/main/resources/testFile')).find(name => name.endsWith(suffix));
+        const directory = path.join(project, suffix === '.jsonl' ? 'src/main/resources/eval/datasets' : 'src/main/resources/testFile');
+        const name = fs.readdirSync(directory).find(name => name.endsWith(suffix));
         assert(name, 'Missing test file for ' + suffix);
         const { root } = await cdp('DOM.getDocument');
         const { nodeId } = await cdp('DOM.querySelector', { nodeId: root.nodeId, selector });
-        await cdp('DOM.setFileInputFiles', { nodeId, files: [path.join(project, 'src/main/resources/testFile', name)] });
+        await cdp('DOM.setFileInputFiles', { nodeId, files: [path.join(directory, name)] });
     }
     function pass(name) { checks.push(name); console.log('PASS ' + name); }
     await cdp('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false });
@@ -157,7 +158,8 @@ try {
         await evaluate('(()=>{const select=document.getElementById("splitType");select.value=' + JSON.stringify(mode) + ';select.dispatchEvent(new Event("change"))})()');
         assert(await evaluate('getComputedStyle(document.getElementById(' + JSON.stringify(expected) + ')).display !== "none"'));
     }
-    pass('upload: upload response and all four split configuration modes');
+    assert(await evaluate('Array.from(document.getElementById("splitType").options).some(option=>option.value==="SMART")'));
+    pass('upload: upload response, four parameter modes and the existing SMART option');
     await navigate('upload');
     await file('#file', '.csv');
     await evaluate('document.getElementById("title").value="表格回归样例"');
@@ -231,6 +233,12 @@ try {
     await evaluate('deleteConversation({stopPropagation(){}},"00000000-0000-4000-8000-000000000099")');
     assert(blockedWrites.some(r => r.path === '/chat/conversation/delete'));
     pass('chat: Markdown sanitation, references, warnings and conversation deletion');
+    if (await evaluate('Array.from(document.scripts).some(script=>script.src.includes("/vendor/"))')) {
+        assert(await evaluate('!!(window.marked && window.DOMPurify && window.hljs)'));
+        assert(await evaluate('renderMarkdown("```javascript\\nconst answer = 42;\\n```").includes("hljs-keyword")'));
+        assert(await evaluate('renderMarkdown("| 字段 | 值 |\\n| --- | --- |\\n| 问题 | 回答 |").includes("<table>")'));
+        pass('chat: local dependencies, actual code highlighting and Markdown tables');
+    }
 
     await navigate('eval-report');
     await click('[data-tab="runs"]');
@@ -255,6 +263,11 @@ try {
     await wait('document.getElementById("runError").textContent.includes("intercepted")');
     const run = JSON.parse(blockedWrites.find(r => r.path === '/eval/run').body);
     assert.deepEqual(run.config, { topK: 7, concurrency: 2, enableLlmJudge: false, reviewScoreThreshold: 0.7 });
+    await file('#datasetFile', '.jsonl');
+    await evaluate('datasetPath.value="ignored-when-uploading.jsonl";startEval()');
+    await wait('document.getElementById("runError").textContent.includes("intercepted") && !document.getElementById("runBtn").disabled');
+    assert(blockedWrites.some(r=>r.path === '/eval/dataset/upload'));
+    assert.equal(JSON.parse(blockedWrites.filter(r=>r.path === '/eval/run').at(-1).body).datasetPath, 'classpath:eval/datasets/eval-test.jsonl');
     pass('evaluation: real report comparison/CSV export and mocked evaluation configuration/error feedback');
 
     await cdp('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
@@ -262,6 +275,9 @@ try {
         await navigate(page.page);
         const navFits = await evaluate('Array.from(document.querySelectorAll(".app-nav .nav-link")).every(a=>{const r=a.getBoundingClientRect();return r.width>0&&r.left>=0&&r.right<=innerWidth})');
         assert(navFits, page.page + ' navigation is clipped at mobile width');
+        if (page.page === 'chat' && await evaluate('Array.from(document.scripts).some(script=>script.src.includes("/vendor/"))')) {
+            assert(await evaluate('document.querySelector(".chat-main").getBoundingClientRect().width >= innerWidth - 40'), 'Mobile conversation list squeezed the chat');
+        }
         const screenshot = await cdp('Page.captureScreenshot', { format: 'png' });
         fs.writeFileSync(path.join(output, page.page + '-mobile.png'), Buffer.from(screenshot.data, 'base64'));
     }
