@@ -6,27 +6,48 @@ import { fileURLToPath } from 'node:url';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const base = process.env.KNOW_ENGINE_URL || 'http://127.0.0.1:8009';
-const output = process.argv[2] || path.join(project, 'target', 'frontend-verification');
+const output = path.resolve(process.argv[2] || path.join(project, 'target', 'frontend-verification'));
 const inventory = JSON.parse(fs.readFileSync(path.join(project, 'docs/frontend-feature-inventory.json'), 'utf8'));
 fs.mkdirSync(output, { recursive: true });
+const browserProfile = path.join(output, 'browser-profile-' + Date.now());
 const browser = spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', [
     '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
-    '--remote-debugging-port=0', '--user-data-dir=' + path.join(output, 'browser-profile'),
+    '--remote-debugging-port=0', '--user-data-dir=' + browserProfile,
 ], { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
 const checks = [];
 const blockedWrites = [];
 const dependencyRoot = process.env.KNOW_ENGINE_TEST_DEPENDENCIES;
 const dependencies = dependencyRoot ? JSON.parse(fs.readFileSync(path.join(dependencyRoot, 'manifest.json'), 'utf8')) : [];
 let socket;
+let closeBrowser;
+let startupError;
+let stderrEndpoint;
+browser.on('error', error => { startupError = error; });
+browser.stderr.on('data', chunk => {
+    const match = chunk.toString().match(/DevTools listening on (ws:\/\/\S+)/);
+    if (match) stderrEndpoint = match[1];
+});
 try {
-    const endpoint = await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => reject(new Error('Browser startup timeout')), 20000);
-        browser.on('error', reject);
-        browser.stderr.on('data', chunk => {
-            const match = chunk.toString().match(/DevTools listening on (ws:\/\/\S+)/);
-            if (match) { clearTimeout(timeout); resolve(match[1]); }
-        });
-    });
+    const endpoint = await (async () => {
+        const deadline = Date.now() + 30000;
+        const portFile = path.join(browserProfile, 'DevToolsActivePort');
+        while (Date.now() < deadline) {
+            if (startupError) throw startupError;
+            if (stderrEndpoint) return stderrEndpoint;
+            // Edge's Windows launcher can exit successfully while its child owns CDP.
+            if (fs.existsSync(portFile)) {
+                const [port, browserPath] = fs.readFileSync(portFile, 'utf8').trim().split(/\r?\n/);
+                if (Number(port) > 0 && browserPath?.startsWith('/devtools/browser/')) {
+                    return 'ws://127.0.0.1:' + port + browserPath;
+                }
+            }
+            if (browser.exitCode !== null && browser.exitCode !== 0) {
+                throw new Error('Browser exited with code ' + browser.exitCode);
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        throw new Error('Browser startup timeout');
+    })();
     socket = new WebSocket(endpoint);
     await new Promise((resolve, reject) => {
         socket.addEventListener('open', resolve, { once: true });
@@ -54,6 +75,7 @@ try {
             socket.send(JSON.stringify({ id, method, params, sessionId }));
         });
     }
+    closeBrowser = () => send('Browser.close');
     const target = await send('Target.createTarget', { url: 'about:blank' });
     const { sessionId } = await send('Target.attachToTarget', { targetId: target.targetId, flatten: true });
     const cdp = (method, params) => send(method, params, sessionId);
@@ -294,6 +316,9 @@ try {
     fs.writeFileSync(path.join(output, 'result.json'), JSON.stringify({ checks, blockedWrites: blockedWrites.map(({body,...request})=>request) }, null, 2));
     console.log('PASS ' + checks.length + ' browser workflow groups; ' + blockedWrites.length + ' mutations mocked before transmission.');
 } finally {
+    if (socket?.readyState === WebSocket.OPEN) {
+        try { await closeBrowser?.(); } catch {}
+    }
     socket?.close();
-    browser.kill();
+    if (browser.exitCode === null) browser.kill();
 }
