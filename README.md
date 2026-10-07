@@ -24,10 +24,10 @@
 
 ## 本地运行
 
-1. 安装 JDK 21、Maven、Git LFS，并准备 MySQL、Redis、Elasticsearch、MinIO，以及提供 `POST /file_parse` 的 MinerU 兼容文档解析服务。聊天与向量化需要可用的 DashScope API Key。
+1. 安装 JDK 21、Maven、Git LFS，并准备 MySQL、Redis、Elasticsearch、MinIO，以及 MinerU 兼容文档解析服务。客户端兼容旧版 `POST /file_parse` 与新版 `/v1/parse/jobs`。聊天与向量化需要可用的 DashScope API Key。
 2. 克隆仓库后运行 `git lfs pull`，再在 PowerShell 中执行 `./scripts/restore-reranker-model.ps1`。模型以 Git LFS 分片分发，脚本会校验并还原 `model_quantized.onnx`；未还原前应用无法加载重排模型。
-3. 在 MySQL 中创建 `know_engine` 数据库（`utf8mb4`），导入 [`src/main/resources/sql/know_engine.sql`](src/main/resources/sql/know_engine.sql)。仓库仅保留建表语句，不包含本机历史会话或评测数据。
-4. 设置环境变量：`DASHSCOPE_API_KEY`、`MYSQL_PASSWORD`、`MINIO_ACCESS_KEY`、`MINIO_SECRET_KEY`。可按需设置 `MYSQL_URL`、`MYSQL_USERNAME`、`MINIO_ENDPOINT`、`MINIO_BUCKET`、`FILE_PARSE_API_URL`；默认连接地址见 [`application.yml`](src/main/resources/application.yml)。若 Redis 使用密码或不在本机，请同步调整 Spring Redis 与 Redisson 两处配置。
+3. 在 MySQL 中创建 `know_engine` 数据库（`utf8mb4`），导入 [`src/main/resources/sql/know_engine.sql`](src/main/resources/sql/know_engine.sql)。SQL 含演示文档、分块及历史记录；已有数据库应先备份。导入 SQL 只恢复 MySQL，MinIO 文件与 Elasticsearch 向量需要另外入库，详见 [本地恢复与评测说明](docs/local-rag-eval.md)。
+4. 将 [`application-example.yml`](src/main/resources/application-example.yml) 复制为同目录的 `application.yml`，设置模板列出的 `KNOW_ENGINE_*` 环境变量，包括 DashScope、数据库、Redis 与 MinIO 凭据。按本机环境调整连接地址；Redis 的 Spring 与 Redisson 两处配置应一致。实际运行配置忽略提交。
 5. 在项目根目录执行 `mvn spring-boot:run`。默认端口为 `8009`。
 
 启动后可访问：
@@ -56,3 +56,7 @@
 - 配置文件不包含可用密钥；请通过环境变量注入，勿提交真实凭据。
 - 当前上传逻辑会为新建 MinIO bucket 设置公共读策略，且接口使用默认用户；在非隔离环境部署前必须审查并调整。
 - 本仓库未包含 MinerU 服务端、MySQL/Redis/Elasticsearch/MinIO 的部署编排文件，需自行准备这些依赖。
+
+## 已验证的版本
+
+`main` 已合入原 `master` 的 RAG 修复、四页统一导航及前端重构。2026-10-03 完整评测为 100/100 成功、Hit@5=0.99、MRR=0.897、Recall@5=0.9566667；2026-10-07 通过 6 个真实对话问题、历史持久化与刷新检查，以及 15 组前端浏览器回归。测量范围和剩余案例见 [检索验收](docs/validation/rag-quality-20261003.md)、[真实对话验证](docs/validation/live-chat-20261007.md)。

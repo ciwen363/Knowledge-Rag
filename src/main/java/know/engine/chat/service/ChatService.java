@@ -398,6 +398,8 @@ public class ChatService {
                 .maxResults(5)
                 // 当前查询改写器只生成一个 Query，因此选择 Map 中的第一个 Query
                 .querySelector(queryToContents -> queryToContents.keySet().iterator().next())
+                // 父分块按真实子分块的最佳相关性评分，向 LLM 注入的仍是完整父分块。
+                .scoringSegments(new ParentChunkScoringSegments(segmentService))
                 // 创建执行 RRF 融合和 BGE 重排的聚合器
                 .build();
         // 装饰器包在重排器外面：先发“正在排序筛选”，聚合后再发“正在生成回答”，并持久化引用

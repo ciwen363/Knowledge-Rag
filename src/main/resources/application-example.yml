@@ -1,3 +1,4 @@
+# Copy this file to application.yml and provide these environment variables.
 server:
   port: 8009
 
@@ -11,9 +12,9 @@ spring:
       max-request-size: 100MB
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: ${MYSQL_URL:jdbc:mysql://127.0.0.1:3306/know_engine?rewriteBatchedStatements=true}
-    username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD:}
+    url: jdbc:mysql://127.0.0.1:3306/know_engine?rewriteBatchedStatements=true
+    username: root
+    password: ${KNOW_ENGINE_SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     # druid:
     initial-size: 5
@@ -31,15 +32,15 @@ spring:
     filters: stat,wall
     connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     stat-view-servlet:
-      enabled: false
+      enabled: true
       url-pattern: /druid/*
       login-username: admin
-      login-password: ${DRUID_PASSWORD:}
+      login-password: ${KNOW_ENGINE_SPRING_DATASOURCE_STAT_VIEW_SERVLET_LOGIN_PASSWORD}
   data:
     redis:
       host: localhost
       port: 6379
-      password:
+      password: ${KNOW_ENGINE_SPRING_DATA_REDIS_PASSWORD}
       ssl:
         enabled: false
   redis:
@@ -51,7 +52,7 @@ spring:
           timeout: 3000
           retryAttempts: 3
           retryInterval: 1500
-          password: null
+          password: ${KNOW_ENGINE_SPRING_REDIS_REDISSON_SINGLE_SERVER_CONFIG_PASSWORD}
           subscriptionsPerConnection: 5
           clientName: null
           address: "redis://localhost:6379"
@@ -74,7 +75,7 @@ mybatis-plus:
 
 # 通义 DashScope API Key（兼容 OpenAI 接口），请填入你自己的密钥
 dashscope:
-  api-key: ${DASHSCOPE_API_KEY}
+  api-key: ${KNOW_ENGINE_DASHSCOPE_API_KEY}
 
 langchain4j:
   open-ai:
@@ -82,14 +83,14 @@ langchain4j:
       api-key: ${dashscope.api-key}
       model-name: qwen3.8-flash
       base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
-      log-requests: false
-      log-responses: false
+      log-requests: true
+      log-responses: true
     streaming-chat-model:
       api-key: ${dashscope.api-key}
       model-name: qwen3.8-flash
       base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
-      log-requests: false
-      log-responses: false
+      log-requests: true
+      log-responses: true
 
 elasticsearch:
   host: http://127.0.0.1:9200
@@ -101,15 +102,18 @@ elasticsearch:
 # MinIO 两个端口不要混用：
 #   --address          S3 API 端口，Java SDK / 预签名 URL 必须走这个
 #   --console-address  控制台 Web UI，只能浏览器打开，不能给 MinioClient 用
+# 启动命令：.\minio.exe server "D:\soft\minio\data" --address "127.0.0.1:9090" --console-address "127.0.0.1:9000"
+# http://127.0.0.1:9000/browser 可访问Web控制台
 minio:
-  url: ${MINIO_ENDPOINT:http://127.0.0.1:9090}
-  accessKey: ${MINIO_ACCESS_KEY}
-  secretKey: ${MINIO_SECRET_KEY}
-  bucketName: ${MINIO_BUCKET:know-engine}
-  endpoint: ${MINIO_ENDPOINT:http://127.0.0.1:9090} # S3 API 端口，不是控制台端口
+  url: http://127.0.0.1:9090
+  accessKey: ${KNOW_ENGINE_MINIO_ACCESS_KEY}
+  secretKey: ${KNOW_ENGINE_MINIO_SECRET_KEY}
+  bucketName: know-engine # 默认是这个,可以不改
+  endpoint: http://127.0.0.1:9090 # 必须指向 --address（S3 API），不是控制台端口
 
 # 文件解析服务配置
 file:
   parse:
     api:
-      url: ${FILE_PARSE_API_URL:http://localhost:8000}
+      url: http://localhost:8000 # 文档解析接口地址，记得改成你自己的
+      tier: basic # MinerU v1 的解析等级；旧 /file_parse 接口忽略此项

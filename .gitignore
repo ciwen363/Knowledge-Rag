@@ -1,22 +1,14 @@
-# IDE and local tooling
-.idea/
-.vscode/
+# Build output and IDE metadata
+/target/
+/.idea/
 *.iml
 
-# Maven output
-target/
-*.class
-src/main/resources/model/bge-reranker-model/model_quantized.onnx
-src/main/resources/model/bge-reranker-model/model_quantized.onnx.partial
+# Local configuration and downloaded models
+/src/main/resources/application.yml
+/src/main/resources/model/
 
-# Local configuration, credentials and logs
+# Local logs and environment files
+*.log
 .env
 .env.*
 !.env.example
-application-local.yml
-*.log
-logs/
-
-# OS files
-.DS_Store
-Thumbs.db

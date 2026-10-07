@@ -1,0 +1,2551 @@
+{
+  "date": "2026-10-03",
+  "gate": {
+    "successfulCases": 100,
+    "hitAtK": 0.99,
+    "mrr": 0.895,
+    "recallAtK": 0.947,
+    "passed": true
+  },
+  "datasetSha256": "ab95ca687a5c5a9297761709e39ce40508130ae0da4e53892868eaa207a844da",
+  "corpus": {
+    "documents": 6,
+    "segments": 97,
+    "vectors": 96,
+    "groundTruthIdsChanged": 0,
+    "segmentTextsChanged": 0
+  },
+  "historical": {
+    "runId": "20260911-014300-7afe0a4b",
+    "config": {
+      "topK": 5,
+      "concurrency": 1,
+      "enableLlmJudge": false,
+      "reviewScoreThreshold": 0.6,
+      "reviewMrrThreshold": 0.3,
+      "reviewRecallAtKThreshold": 0.3
+    },
+    "totalCases": 100,
+    "successfulCases": 100,
+    "failedCaseIds": [],
+    "retrieval": {
+      "hitAtK": 0.98,
+      "mrr": 0.8945000000000001,
+      "recallAtK": 0.9466666666666664,
+      "avgLatencyMs": 30476,
+      "p50LatencyMs": 36998,
+      "p95LatencyMs": 44982
+    }
+  },
+  "baseline": {
+    "runId": "20261002-223703-c8484647",
+    "config": {
+      "topK": 5,
+      "concurrency": 1,
+      "enableLlmJudge": false,
+      "reviewScoreThreshold": 0.6,
+      "reviewMrrThreshold": 0.3,
+      "reviewRecallAtKThreshold": 0.3
+    },
+    "totalCases": 100,
+    "successfulCases": 100,
+    "failedCaseIds": [],
+    "retrieval": {
+      "hitAtK": 0.98,
+      "mrr": 0.8908333333333335,
+      "recallAtK": 0.9516666666666667,
+      "avgLatencyMs": 27149,
+      "p50LatencyMs": 28053,
+      "p95LatencyMs": 40259
+    }
+  },
+  "candidate": {
+    "runId": "20261003-001139-77162f1b",
+    "config": {
+      "topK": 5,
+      "concurrency": 1,
+      "enableLlmJudge": false,
+      "reviewScoreThreshold": 0.6,
+      "reviewMrrThreshold": 0.3,
+      "reviewRecallAtKThreshold": 0.3
+    },
+    "totalCases": 100,
+    "successfulCases": 100,
+    "failedCaseIds": [],
+    "retrieval": {
+      "hitAtK": 0.99,
+      "mrr": 0.897,
+      "recallAtK": 0.9566666666666666,
+      "avgLatencyMs": 20754,
+      "p50LatencyMs": 21343,
+      "p95LatencyMs": 27844
+    }
+  },
+  "measurement": {
+    "topK": 5,
+    "concurrency": 1,
+    "enableLlmJudge": false,
+    "generationAndContextQuality": "not measured"
+  },
+  "cases": [
+    {
+      "id": "aurora-md-001",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "曙光智造园区内部代号",
+      "retrievedChunkIds": [
+        "353283299259580417",
+        "353283812000661504",
+        "353285809898651650",
+        "353283299259580416",
+        "353283917827145741"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2",
+        "4",
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-md-002",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "园区生产区组成",
+      "retrievedChunkIds": [
+        "353283299259580420",
+        "353283299259580417"
+      ],
+      "retrievedDocumentIds": [
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-md-003",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "园区统一使用的边缘网关类型",
+      "retrievedChunkIds": [
+        "353283299259580417",
+        "353283299259580420",
+        "353285847806771202",
+        "353285847806771200",
+        "353285847806771201"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-md-004",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "园区正常温度范围",
+      "retrievedChunkIds": [
+        "353283299259580418",
+        "353283812000661504"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-md-005",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "园区正常相对湿度范围",
+      "retrievedChunkIds": [
+        "353283299259580418",
+        "353283812000661504"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-md-006",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "网关本地缓存预警阈值",
+      "retrievedChunkIds": [
+        "353283299259580421",
+        "353283299259580418",
+        "353283812000661505"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-md-007",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "网关本地缓存暂停非关键采集任务的阈值",
+      "retrievedChunkIds": [
+        "353283299259580421",
+        "353283812000661505",
+        "353283812000661507",
+        "353283299259580418",
+        "353285809898651650"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-md-008",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 0.5
+      },
+      "rewrite": "园区固定维护窗口时间",
+      "retrievedChunkIds": [
+        "353283812000661504",
+        "353283299259580423",
+        "353283812000661505",
+        "353283917827145741",
+        "353283917827145732"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-md-009",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "P1事件首次响应目标",
+      "retrievedChunkIds": [
+        "353283299259580422",
+        "353283299259580419",
+        "353283299259580429",
+        "353285880643977218",
+        "353285880643977245"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-md-010",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "rewrite": "P2事件首次响应目标",
+      "retrievedChunkIds": [
+        "353283299259580429",
+        "353283299259580422",
+        "353283299259580419",
+        "353285880643977223",
+        "353285880643977221"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-md-011",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "三个生产区同时异常按P1处理的条件",
+      "retrievedChunkIds": [
+        "353283299259580422",
+        "353285809898651650",
+        "353283812000661507",
+        "353283812000661505",
+        "353283812000661504"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "4",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-md-012",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.2,
+        "recallAtK": 1
+      },
+      "rewrite": "P2 未恢复超过多久升级为 P1",
+      "retrievedChunkIds": [
+        "353283812000661504",
+        "353283299259580429",
+        "353285809898651650",
+        "353285809898651653",
+        "353283299259580422"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-md-013",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "事件队列 E-42 触发阈值",
+      "retrievedChunkIds": [
+        "353283299259580421",
+        "353285880643977217",
+        "353285880643977231",
+        "353283812000661505",
+        "353285809898651650"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "6",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-md-014",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "E-42恢复标准",
+      "retrievedChunkIds": [
+        "353283299259580421",
+        "353285809898651651",
+        "353285809898651650",
+        "353283812000661505",
+        "353285880643977231"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "4",
+        "2",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-md-015",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "E-17触发条件 设备时钟偏差阈值",
+      "retrievedChunkIds": [
+        "353283299259580421",
+        "353285809898651650",
+        "353285880643977216",
+        "353285880643977237"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-md-016",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "紧急变更补齐记录最长期限",
+      "retrievedChunkIds": [
+        "353283299259580423",
+        "353283917827145731"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-md-017",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "临时配置最长保留时间",
+      "retrievedChunkIds": [
+        "353283299259580423",
+        "353283917827145731",
+        "353283812000661508",
+        "353283917827145734",
+        "353283917827145741"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "3",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-md-018",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.25,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.25,
+        "recallAtK": 1
+      },
+      "rewrite": "数据导出双人审批的行数阈值",
+      "retrievedChunkIds": [
+        "353283812000661507",
+        "353283917827145741",
+        "353283917827145733",
+        "353283299259580424",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-txt-001",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "每日开班检查开始时间",
+      "retrievedChunkIds": [
+        "353283812000661504",
+        "353283812000661506"
+      ],
+      "retrievedDocumentIds": [
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-txt-002",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "开班时依次记录的信息",
+      "retrievedChunkIds": [
+        "353283812000661504",
+        "353283812000661507",
+        "353283812000661506",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-txt-003",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "HG-220连续丢失三次心跳是否允许直接重启",
+      "retrievedChunkIds": [
+        "353283812000661504",
+        "353283812000661505",
+        "353283299259580421",
+        "353283299259580420",
+        "353285809898651651"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-004",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "心跳恢复后观察时长",
+      "retrievedChunkIds": [
+        "353283812000661505",
+        "353283299259580421",
+        "353283299259580428"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-txt-005",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "传感器校准过期时环境异常数据处理方法",
+      "retrievedChunkIds": [
+        "353283812000661505",
+        "353285809898651651",
+        "353285809898651650",
+        "353283812000661508",
+        "353285880643977219"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-txt-006",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "环境指标恢复后观察时长",
+      "retrievedChunkIds": [
+        "353283812000661505",
+        "353283299259580425",
+        "353283299259580421",
+        "353285809898651650",
+        "353283299259580428"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-007",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "维护窗口开始前需要核对的项目",
+      "retrievedChunkIds": [
+        "353283299259580423",
+        "353283812000661505",
+        "353283812000661508",
+        "353283812000661504",
+        "353283812000661507"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-txt-008",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "维护过程中同时修改两个生产区关键配置的操作规定",
+      "retrievedChunkIds": [
+        "353283812000661505",
+        "353283812000661507",
+        "353283299259580423",
+        "353283812000661506",
+        "353285809898651650"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-009",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "03:20仍未完成核心验证的应对措施",
+      "retrievedChunkIds": [
+        "353283812000661505",
+        "353285809898651650",
+        "353283812000661507"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-010",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "配置变更后必须检查的四项结果",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353283917827145734",
+        "353283812000661508",
+        "353283299259580428",
+        "353283812000661505"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-txt-011",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "连续两次回退失败后的处置方法",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353285809898651651",
+        "353285880643977241",
+        "353283812000661505",
+        "353285880643977237"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-txt-012",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "P1 确认后通知当班经理和 Blue Heron 的时限",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353283812000661504",
+        "353283299259580425",
+        "353283812000661507",
+        "353285809898651653"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-013",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "P2事件进展更新频率",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353285809898651651",
+        "353283299259580422",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "4",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-txt-014",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "P3 同类事件发起问题复盘的条件",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353283299259580428",
+        "353283812000661508",
+        "353285809898651650",
+        "353283812000661507"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-015",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "工单必填核心字段",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-txt-016",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "交接中临时配置标注要求",
+      "retrievedChunkIds": [
+        "353283812000661506",
+        "353283812000661504",
+        "353283299259580428",
+        "353285809898651653",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-txt-017",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "事件队列归档前清空规则",
+      "retrievedChunkIds": [
+        "353283812000661507",
+        "353285809898651651",
+        "353285809898651650",
+        "353283812000661505",
+        "353283299259580428"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "4",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-txt-018",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "P1事件恢复后确定复盘负责人时限",
+      "retrievedChunkIds": [
+        "353283812000661507",
+        "353283812000661506",
+        "353283917827145731",
+        "353283299259580428",
+        "353285809898651653"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "3",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-docx-001",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "Operator 角色可执行操作权限",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283917827145730"
+      ],
+      "retrievedDocumentIds": [
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-docx-002",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "Engineer 修改设备配置条件",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283917827145730",
+        "353283917827145732",
+        "353283299259580423",
+        "353283812000661507"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-docx-003",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "Auditor 审计记录导出时间范围",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283917827145733",
+        "353283917827145734",
+        "353283299259580424"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-docx-004",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "原始传感器数据保留期限",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283299259580424",
+        "353283917827145733",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-docx-005",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "小时聚合数据保留时长",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283812000661508",
+        "353283299259580429",
+        "353285847806771225"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "2",
+        "1",
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-docx-006",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "审计日志保留期限",
+      "retrievedChunkIds": [
+        "353283917827145734",
+        "353283917827145741",
+        "353283299259580424",
+        "353283917827145739"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-docx-007",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "rewrite": "大批量数据导出审批人员",
+      "retrievedChunkIds": [
+        "353283917827145733",
+        "353283917827145730",
+        "353283917827145741",
+        "353283299259580424",
+        "353283812000661507"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-docx-008",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "工单禁止粘贴敏感内容类型",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283917827145735",
+        "353283812000661506",
+        "353283917827145728"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-docx-009",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "会话连续无操作自动失效时长",
+      "retrievedChunkIds": [
+        "353283917827145732",
+        "353283917827145741"
+      ],
+      "retrievedDocumentIds": [
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-docx-010",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "Engineer修改配置前置身份步骤",
+      "retrievedChunkIds": [
+        "353283917827145741",
+        "353283917827145732",
+        "353283917827145730",
+        "353283812000661506"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-docx-011",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "园区数据四级分类标准",
+      "retrievedChunkIds": [
+        "353283917827145728",
+        "353285809898651650",
+        "353283299259580420",
+        "353283299259580422"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "4",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-docx-012",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "临时权限例外审批角色",
+      "retrievedChunkIds": [
+        "353283917827145731",
+        "353283917827145734",
+        "353283917827145730"
+      ],
+      "retrievedDocumentIds": [
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-docx-013",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "临时权限最长有效期规定",
+      "retrievedChunkIds": [
+        "353283917827145731",
+        "353283299259580423",
+        "353283917827145739",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-docx-014",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "审计记录应包含的信息",
+      "retrievedChunkIds": [
+        "353283917827145734",
+        "353283299259580424",
+        "353283917827145739"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-docx-015",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "权限复核固定频率",
+      "retrievedChunkIds": [
+        "353283917827145736",
+        "353283917827145734"
+      ],
+      "retrievedDocumentIds": [
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-docx-016",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "真实令牌进入工单后的处理流程",
+      "retrievedChunkIds": [
+        "353283917827145735",
+        "353283917827145728",
+        "353283812000661506",
+        "353285809898651650",
+        "353283917827145741"
+      ],
+      "retrievedDocumentIds": [
+        "3",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-pdf-001",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "故障处理前需确认的基本信息",
+      "retrievedChunkIds": [
+        "353285809898651650",
+        "353283812000661507",
+        "353283812000661505",
+        "353283299259580428"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "2",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-pdf-002",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "E-17 问题代码含义说明",
+      "retrievedChunkIds": [
+        "353285809898651651",
+        "353285809898651650",
+        "353285880643977216",
+        "353285880643977237"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-003",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "rewrite": "E-17 首要处置动作",
+      "retrievedChunkIds": [
+        "353285809898651650",
+        "353285880643977237",
+        "353285880643977216",
+        "353283299259580421"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-pdf-004",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "E-17 处理过程中禁止重启 HG-220 的原因",
+      "retrievedChunkIds": [
+        "353285809898651651",
+        "353285809898651650",
+        "353285880643977237",
+        "353285880643977216",
+        "353283812000661505"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-pdf-005",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "E-17 处置完成后验证方法",
+      "retrievedChunkIds": [
+        "353285809898651651",
+        "353285809898651650",
+        "353283299259580421",
+        "353285880643977237",
+        "353285880643977216"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "1",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-006",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "rewrite": "E-42 错误代码含义",
+      "retrievedChunkIds": [
+        "353285880643977217",
+        "353285880643977231",
+        "353285809898651651",
+        "353285809898651650"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-pdf-007",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "E-42 归档记录时间条件",
+      "retrievedChunkIds": [
+        "353285809898651651",
+        "353285809898651650",
+        "353283812000661505",
+        "353283299259580421",
+        "353285880643977217"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "2",
+        "1",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-008",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "E-42处置后队列深度目标值",
+      "retrievedChunkIds": [
+        "353283812000661505",
+        "353285809898651651",
+        "353285809898651650",
+        "353285880643977217",
+        "353283299259580421"
+      ],
+      "retrievedDocumentIds": [
+        "2",
+        "4",
+        "6",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-pdf-009",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "R-09 故障代码含义",
+      "retrievedChunkIds": [
+        "353285809898651652",
+        "353285809898651650",
+        "353285880643977218",
+        "353285880643977235"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-010",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "R-09处置前隔离机器人的原因",
+      "retrievedChunkIds": [
+        "353285809898651652",
+        "353285809898651650",
+        "353285880643977235",
+        "353285880643977218"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-011",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "S-03 故障代码含义",
+      "retrievedChunkIds": [
+        "353285809898651652",
+        "353285809898651650",
+        "353285880643977219"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-012",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "rewrite": "S-03 校准后观察时长",
+      "retrievedChunkIds": [
+        "353285880643977219",
+        "353285809898651652",
+        "353285809898651651",
+        "353283299259580421"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-pdf-013",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.6666666666666666
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.6666666666666666
+      },
+      "rewrite": "N-11 故障代码含义",
+      "retrievedChunkIds": [
+        "353285809898651652",
+        "353285809898651650",
+        "353285880643977233",
+        "353285880643977221"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-014",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "rewrite": "N-11切换备用链路后验证内容",
+      "retrievedChunkIds": [
+        "353285809898651652",
+        "353285880643977221",
+        "353285880643977233",
+        "353283812000661506"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-pdf-015",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "rewrite": "G-08故障代码含义",
+      "retrievedChunkIds": [
+        "353285809898651650",
+        "353285880643977222",
+        "353285880643977243"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-pdf-016",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "G-08 回退后必须执行的验证要求",
+      "retrievedChunkIds": [
+        "353285809898651653",
+        "353283812000661506",
+        "353283812000661505",
+        "353285880643977222",
+        "353283917827145732"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "2",
+        "6",
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-pdf-017",
+      "baseline": {
+        "hitAtK": false,
+        "mrr": 0,
+        "recallAtK": 0
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 0.25,
+        "recallAtK": 1
+      },
+      "rewrite": "故障恢复的三个共同条件",
+      "retrievedChunkIds": [
+        "353283299259580428",
+        "353283812000661507",
+        "353283299259580421",
+        "353285809898651652",
+        "353285809898651650"
+      ],
+      "retrievedDocumentIds": [
+        "1",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-pdf-018",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "rewrite": "P1故障统筹协调组",
+      "retrievedChunkIds": [
+        "353285809898651650",
+        "353283299259580425",
+        "353283812000661504",
+        "353283812000661506",
+        "353283812000661508"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-pdf-019",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 0.5
+      },
+      "rewrite": "P2超过两小时未恢复的处理方式",
+      "retrievedChunkIds": [
+        "353285809898651650",
+        "353283812000661504",
+        "353283299259580422",
+        "353283299259580429",
+        "353283812000661506"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "2",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-pdf-020",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "排障记录证据保存要求",
+      "retrievedChunkIds": [
+        "353285809898651650",
+        "353283299259580424"
+      ],
+      "retrievedDocumentIds": [
+        "4",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-001",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "AU-GW-001 资产名称和责任团队",
+      "retrievedChunkIds": [
+        "353285847806771200",
+        "353285847806771202",
+        "353285847806771201",
+        "353285847810965504",
+        "353285880643977216"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-002",
+      "baseline": {
+        "hitAtK": false,
+        "mrr": 0,
+        "recallAtK": 0
+      },
+      "candidate": {
+        "hitAtK": false,
+        "mrr": 0,
+        "recallAtK": 0
+      },
+      "rewrite": "处于维护状态的资产",
+      "retrievedChunkIds": [
+        "353285847806771212",
+        "353285847806771226",
+        "353285847806771215",
+        "353285847806771213",
+        "353285847806771201"
+      ],
+      "retrievedDocumentIds": [
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-003",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "AU-SN-014 下次维护任务",
+      "retrievedChunkIds": [
+        "353285847806771203",
+        "353283812000661504",
+        "353283812000661505",
+        "353285880643977219",
+        "353285847810965504"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "2",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-004",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 0.5,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "已退役资产项目查询",
+      "retrievedChunkIds": [
+        "353285847806771209",
+        "353283917827145738"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "3"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-005",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "替代 AU-PM-002 的资产",
+      "retrievedChunkIds": [
+        "353285847806771209",
+        "353285847806771210"
+      ],
+      "retrievedDocumentIds": [
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-006",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "C区C1关键机器人资产",
+      "retrievedChunkIds": [
+        "353285847806771205",
+        "353285847806771206",
+        "353285847806771222",
+        "353285847806771202",
+        "353285847806771207"
+      ],
+      "retrievedDocumentIds": [
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-007",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "AU-CM-004 所在子区域",
+      "retrievedChunkIds": [
+        "353285847806771208",
+        "353285847806771207",
+        "353285880643977223",
+        "353285847806771217",
+        "353285847806771218"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-008",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "事件归档存储负责团队",
+      "retrievedChunkIds": [
+        "353285847806771216",
+        "353285847806771226",
+        "353283917827145740",
+        "353283299259580425"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-009",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "生产数据主库维护任务",
+      "retrievedChunkIds": [
+        "353285847806771225",
+        "353285847806771226",
+        "353283299259580427",
+        "353285847806771216",
+        "353285847810965506"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-010",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "生产数据主库灾备设备",
+      "retrievedChunkIds": [
+        "353285847806771226",
+        "353285847806771225",
+        "353283299259580427"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-011",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "AU-UPS-051 维护时长",
+      "retrievedChunkIds": [
+        "353285847806771218",
+        "353285880643977227",
+        "353285880643977245",
+        "353285847810965504",
+        "353285847810965505"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-012",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "B区采集网关",
+      "retrievedChunkIds": [
+        "353285847806771201",
+        "353283299259580417",
+        "353283299259580420",
+        "353285847806771212",
+        "353285847806771202"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-013",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "加工区控制器负责团队",
+      "retrievedChunkIds": [
+        "353285847806771221",
+        "353285847810965506",
+        "353285847806771222",
+        "353285847806771217",
+        "353285847806771205"
+      ],
+      "retrievedDocumentIds": [
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-xlsx-014",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "AU-HMI-111 关键等级与用途",
+      "retrievedChunkIds": [
+        "353285847810965506",
+        "353285880643977230",
+        "353285847806771211",
+        "353285847806771223",
+        "353285847806771217"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-csv-001",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260803 严重级别 解决时长",
+      "retrievedChunkIds": [
+        "353285880643977218",
+        "353285880643977223",
+        "353285880643977216",
+        "353285880643977243",
+        "353285880643977236"
+      ],
+      "retrievedDocumentIds": [
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-csv-002",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "由传感器校准偏移引起的事件",
+      "retrievedChunkIds": [
+        "353285880643977219",
+        "353285809898651651",
+        "353285809898651650",
+        "353285880643977238",
+        "353285880643977223"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-csv-003",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260806 上联端口丢包处置流程",
+      "retrievedChunkIds": [
+        "353285880643977221",
+        "353285809898651651",
+        "353285809898651653",
+        "353285880643977243",
+        "353285880643977228"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-csv-004",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "生产数据主库连接占用事件",
+      "retrievedChunkIds": [
+        "353285880643977229",
+        "353285847806771225",
+        "353285847806771226",
+        "353283299259580427"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "5",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-csv-005",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260816错误码与根因",
+      "retrievedChunkIds": [
+        "353285880643977231",
+        "353285880643977219",
+        "353285880643977223",
+        "353285880643977243",
+        "353285880643977216"
+      ],
+      "retrievedDocumentIds": [
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-csv-006",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "光模块温度过高事件",
+      "retrievedChunkIds": [
+        "353285880643977233",
+        "353285809898651652",
+        "353283812000661504"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-csv-007",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260820 安全门触点松动处理措施",
+      "retrievedChunkIds": [
+        "353285880643977235",
+        "353285809898651650",
+        "353285880643977218",
+        "353285880643977238",
+        "353285880643977245"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4"
+      ]
+    },
+    {
+      "id": "aurora-csv-008",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260822 时钟故障恢复方法",
+      "retrievedChunkIds": [
+        "353285880643977237",
+        "353285880643977216",
+        "353285880643977243",
+        "353285880643977241",
+        "353285880643977219"
+      ],
+      "retrievedDocumentIds": [
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-csv-009",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "生产数据库备库复制延迟相关事件",
+      "retrievedChunkIds": [
+        "353285847806771226",
+        "353285880643977239",
+        "353283299259580427"
+      ],
+      "retrievedDocumentIds": [
+        "5",
+        "6",
+        "1"
+      ]
+    },
+    {
+      "id": "aurora-csv-010",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260826 配置回退原因",
+      "retrievedChunkIds": [
+        "353285880643977241",
+        "353285880643977234",
+        "353285880643977243",
+        "353285880643977237",
+        "353285880643977231"
+      ],
+      "retrievedDocumentIds": [
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-csv-011",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "规则计算服务器加载不完整对应事件",
+      "retrievedChunkIds": [
+        "353285880643977243",
+        "353285809898651651",
+        "353285847806771214",
+        "353285847806771215"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "aurora-csv-012",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "仍处于复盘中事件",
+      "retrievedChunkIds": [
+        "353285880643977245",
+        "353285809898651651",
+        "353285880643977217",
+        "353285880643977231",
+        "353283812000661507"
+      ],
+      "retrievedDocumentIds": [
+        "6",
+        "4",
+        "2"
+      ]
+    },
+    {
+      "id": "aurora-csv-013",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260830 严重级别与根因",
+      "retrievedChunkIds": [
+        "353285880643977245",
+        "353285880643977223",
+        "353285880643977243",
+        "353285880643977241",
+        "353285880643977219"
+      ],
+      "retrievedDocumentIds": [
+        "6"
+      ]
+    },
+    {
+      "id": "aurora-csv-014",
+      "baseline": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "candidate": {
+        "hitAtK": true,
+        "mrr": 1,
+        "recallAtK": 1
+      },
+      "rewrite": "INC-260805 响应目标达标情况",
+      "retrievedChunkIds": [
+        "353285880643977220",
+        "353285880643977223",
+        "353285880643977219",
+        "353285880643977222",
+        "353285880643977243"
+      ],
+      "retrievedDocumentIds": [
+        "6"
+      ]
+    }
+  ]
+}

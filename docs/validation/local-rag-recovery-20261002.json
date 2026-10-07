@@ -1,0 +1,78 @@
+{
+  "checkedAt": "2026-10-02",
+  "sourceCommit": "5733fad",
+  "storage": {
+    "documents": 6,
+    "segments": 97,
+    "vectors": 96,
+    "textsAndMetadataUnchanged": true,
+    "esTextsMatched": true
+  },
+  "dataset": {
+    "cases": 100,
+    "mappedDocuments": 6,
+    "mappedChunks": 50,
+    "changedCases": 0
+  },
+  "unitTests": {
+    "total": 9,
+    "failed": 0
+  },
+  "historicalReference": {
+    "runId": "20260911-014300-7afe0a4b",
+    "config": {
+      "topK": 5,
+      "concurrency": 1,
+      "enableLlmJudge": false,
+      "reviewScoreThreshold": 0.6,
+      "reviewMrrThreshold": 0.3,
+      "reviewRecallAtKThreshold": 0.3
+    },
+    "totalCases": 100,
+    "evaluatedCases": 100,
+    "retrieval": {
+      "hitAtK": 0.98,
+      "mrr": 0.8945000000000001,
+      "recallAtK": 0.9466666666666664,
+      "avgLatencyMs": 30476,
+      "p50LatencyMs": 36998,
+      "p95LatencyMs": 44982
+    }
+  },
+  "localRun": {
+    "runId": "20261002-212241-ca88f26b",
+    "config": {
+      "topK": 5,
+      "concurrency": 4,
+      "enableLlmJudge": false,
+      "reviewScoreThreshold": 0.6,
+      "reviewMrrThreshold": 0.3,
+      "reviewRecallAtKThreshold": 0.3
+    },
+    "totalCases": 100,
+    "evaluatedCases": 98,
+    "retrieval": {
+      "hitAtK": 0.9693877551020408,
+      "mrr": 0.8903061224489796,
+      "recallAtK": 0.9387755102040816,
+      "avgLatencyMs": 44406,
+      "p50LatencyMs": 44819,
+      "p95LatencyMs": 65043
+    },
+    "failedCases": [
+      {
+        "caseId": "aurora-pdf-006",
+        "error": "I/O error on POST request for \"https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions\": Connection reset"
+      },
+      {
+        "caseId": "aurora-pdf-013",
+        "error": "I/O error on POST request for \"https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions\": Connection reset"
+      }
+    ]
+  },
+  "limitations": [
+    "Historical reference is imported SQL data, not a controlled run on this local environment.",
+    "LLM judge was disabled; generation summary zero values represent unmeasured scores.",
+    "Batching quantized ONNX inference can change scores; identical quality is not established."
+  ]
+}

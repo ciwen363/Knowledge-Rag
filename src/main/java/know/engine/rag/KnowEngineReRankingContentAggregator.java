@@ -38,6 +38,9 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
      */
     private static final int EMPTY_FILTER_FALLBACK_LIMIT = 3;
 
+    // ONNX attention pads a batch to its longest input; bound size * length² without truncating text.
+    private static final long SCORING_BATCH_CHAR_SQUARED_LIMIT = 1_000_000L;
+
     /** 交叉编码器，对 (Query, 片段) 打相关性分；本项目一般注入 BGE ONNX 模型 */
     private final ScoringModel scoringModel;
     /** 从多 Query 的入参 Map 中选出 BGE 打分用的那一个 Query */
@@ -46,15 +49,25 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
     private final Double minScore;
     /** 最终返回条数上限；构造时未传则视为不截断 */
     private final Integer maxResults;
+    private final Function<TextSegment, List<TextSegment>> scoringSegments;
 
     public KnowEngineReRankingContentAggregator(ScoringModel scoringModel,
                                                 Function<Map<Query, Collection<List<Content>>>, Query> querySelector,
                                                 Double minScore,
                                                 Integer maxResults) {
+        this(scoringModel, querySelector, minScore, maxResults, List::of);
+    }
+
+    public KnowEngineReRankingContentAggregator(ScoringModel scoringModel,
+                                                Function<Map<Query, Collection<List<Content>>>, Query> querySelector,
+                                                Double minScore,
+                                                Integer maxResults,
+                                                Function<TextSegment, List<TextSegment>> scoringSegments) {
         this.scoringModel = ensureNotNull(scoringModel, "scoringModel");
         this.querySelector = ensureNotNull(querySelector, "querySelector");
         this.minScore = minScore;
         this.maxResults = getOrDefault(maxResults, Integer.MAX_VALUE);
+        this.scoringSegments = scoringSegments != null ? scoringSegments : segment -> List.of(segment);
     }
 
     public static ReRankingContentAggregatorBuilder builder() {
@@ -124,7 +137,8 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
     /**
      * 用 ScoringModel 对融合后的候选重新打分，再过滤、截断
      * 注意点：
-     *   BGE 吃的是 {@link TextSegment} 文本，不是 Content 对象，所以先抽出 segment 批量 {@code scoreAll}
+     *   普通分块全文评分；父分块可由真实子分块评分，返回的父上下文保留全文
+     *   小候选批次保持原样，长输入分批以控制内存
      *   {@code putIfAbsent}：同一 TextSegment 若出现多次，保留第一次对应的原始 Content（及其元数据）
      *   写出时把 BGE 分数写入 {@code RERANKED_SCORE}，并拷贝原 Content 元数据，供前端引用展示
      *   若 minScore 过滤后为空，按 RRF 顺序回退取前 {@link #EMPTY_FILTER_FALLBACK_LIMIT} 条，并写回 BGE 分
@@ -142,12 +156,24 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
 
         List<TextSegment> segments = contents.stream().map(Content::textSegment).collect(Collectors.toList());
 
-        // 一次批量打分，避免对每个片段单独调模型
-        List<Double> scores = scoringModel.scoreAll(segments, query.text()).content();
+        // 按真实子分块评分父上下文；相同子分块只评分一次，返回内容与元数据仍保持原样。
+        List<List<TextSegment>> groups = segments.stream().map(scoringSegments).toList();
+        Map<TextSegment, Integer> inputIndices = new LinkedHashMap<>();
+        groups.forEach(group -> group.forEach(segment -> inputIndices.computeIfAbsent(segment, key -> inputIndices.size())));
+        List<Double> inputScores;
+        synchronized (scoringModel) {
+            inputScores = scoreInBatches(new ArrayList<>(inputIndices.keySet()), query.text());
+        }
 
         Map<TextSegment, Double> segmentToScore = new HashMap<>();
         for (int i = 0; i < segments.size(); i++) {
-            segmentToScore.put(segments.get(i), scores.get(i));
+            double score = groups.get(i).stream()
+                    .mapToDouble(segment -> inputScores.get(inputIndices.get(segment)))
+                    .max().orElseThrow();
+            segmentToScore.put(segments.get(i), score);
+            log.debug("Rerank score: chunkId={}, parentChunkId={}, score={}, passages={}",
+                    segments.get(i).metadata().getString("chunkId"),
+                    segments.get(i).metadata().getString("parentChunkId"), score, groups.get(i).size());
         }
 
         // 低于 minScore 的丢掉 → 按 BGE 分从高到低 → 写回分数元数据 → 截取 maxResults
@@ -179,8 +205,28 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
                 .collect(Collectors.toList());
     }
 
+    private List<Double> scoreInBatches(List<TextSegment> segments, String query) {
+        List<Double> scores = new ArrayList<>(segments.size());
+        List<TextSegment> batch = new ArrayList<>();
+        long longest = 0;
+        for (TextSegment segment : segments) {
+            long nextLongest = Math.max(longest, (long) segment.text().length() + query.length());
+            if (!batch.isEmpty() && (batch.size() + 1L) * nextLongest * nextLongest > SCORING_BATCH_CHAR_SQUARED_LIMIT) {
+                scores.addAll(scoringModel.scoreAll(batch, query).content());
+                batch.clear();
+                longest = 0;
+            }
+            batch.add(segment);
+            longest = Math.max(longest, (long) segment.text().length() + query.length());
+        }
+        if (!batch.isEmpty()) {
+            scores.addAll(scoringModel.scoreAll(batch, query).content());
+        }
+        return scores;
+    }
+
     /**
-     * 建造器；ChatService 典型配置：scoringModel=BGE，minScore=0.6，maxResults=5，
+     * 建造器；ChatService 典型配置：scoringModel=BGE，minScore=-2.5，maxResults=5，
      * querySelector 取 Map 中第一个 Query
      */
     public static class ReRankingContentAggregatorBuilder {
@@ -188,6 +234,7 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
         private Function<Map<Query, Collection<List<Content>>>, Query> querySelector;
         private Double minScore;
         private Integer maxResults;
+        private Function<TextSegment, List<TextSegment>> scoringSegments;
 
         ReRankingContentAggregatorBuilder() {
         }
@@ -216,8 +263,13 @@ public class KnowEngineReRankingContentAggregator implements ContentAggregator {
             return this;
         }
 
+        public ReRankingContentAggregatorBuilder scoringSegments(Function<TextSegment, List<TextSegment>> scoringSegments) {
+            this.scoringSegments = scoringSegments;
+            return this;
+        }
+
         public KnowEngineReRankingContentAggregator build() {
-            return new KnowEngineReRankingContentAggregator(this.scoringModel, this.querySelector, this.minScore, this.maxResults);
+            return new KnowEngineReRankingContentAggregator(this.scoringModel, this.querySelector, this.minScore, this.maxResults, this.scoringSegments);
         }
     }
 }
